@@ -118,7 +118,7 @@ class WGANSing(Model):
 
 
 
-        self.final_loss = tf.reduce_sum(tf.abs(self.output_placeholder- (self.output/2+0.5)))/(config.batch_size*config.max_phr_len*64) * config.lambda + tf.reduce_mean(self.D_fake+1e-12)
+        self.final_loss = tf.reduce_sum(tf.abs(self.output_placeholder- (self.output/2+0.5)))/(config.batch_size*config.max_phr_len*64) * config.lamda + tf.reduce_mean(self.D_fake+1e-12)
 
         self.D_loss = tf.reduce_mean(self.D_real +1e-12) - tf.reduce_mean(self.D_fake+1e-12)
 
@@ -178,12 +178,13 @@ class WGANSing(Model):
         self.get_optimizers()
         self.load_model(sess, config.log_dir)
         self.get_summary(sess, config.log_dir)
-        start_epoch = int(sess.run(tf.train.get_global_step()) / (config.batches_per_epoch_train))
+        #start_epoch = int(sess.run(tf.train.get_global_step()) / (config.batches_per_epoch_train))
+        start_epoch = 940
 
 
         print("Start from: %d" % start_epoch)
 
-
+        # NOT EVEN GOING INTO THIS LOOP because the strt epoch is the same as the end epoch
         for epoch in range(start_epoch, config.num_epochs):
 
             data_generator = data_gen()
@@ -445,7 +446,8 @@ def test():
     # # model.test_file('nino_4424.hdf5')
     # model.test_wav_folder('./helena_test_set/', './results/')
 
-    model = MultiSynth()
+    #model = MultiSynth()
+    model = WGANSing()
     model.train()
 
 if __name__ == '__main__':

@@ -124,7 +124,7 @@ def stft(data, window=np.hanning(1024),
     
     return STFT
 
-def istft(mag, phase, window=np.hanning(1024),
+def istft(mag, ase, window=np.hanning(1024),
          hopsize=256.0, nfft=1024.0, fs=44100.0,
           analysisWindow=None):
     """
@@ -254,13 +254,20 @@ def input_to_feats(input_file, mode=0):
     return feats
 
 def stft_to_feats(vocals, fs, mode=config.comp_mode):
+    #wav2world returns f0 [pitch], sp [spectrogram], ap [periodicity]
     feats=pw.wav2world(vocals,fs,frame_period=5.80498866)
 
+    # aperiodicity envelope (but with some dimensionality reduction?)
     ap = feats[2].reshape([feats[1].shape[0],feats[1].shape[1]]).astype(np.float32)
     ap = 10.*np.log10(ap**2)
+
+    # harmonic spectral envelope
     harm=10*np.log10(feats[1].reshape([feats[2].shape[0],feats[2].shape[1]]))
+
+    # getting feats again somewhy?
     feats=pw.wav2world(vocals,fs,frame_period=5.80498866)
 
+    # fundamental frequency
     f0 = feats[0]
     # f0 = pitch.extract_f0_sac(vocals, fs, 0.00580498866)
 

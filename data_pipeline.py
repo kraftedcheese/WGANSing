@@ -78,12 +78,7 @@ def data_gen(mode = 'Train', sec_mode = 0):
 
             voc_index = np.random.randint(0,len(file_list))
             voc_to_open = file_list[voc_index]
-
-
             voc_file = h5py.File(config.voice_dir+voc_to_open, "r")
-
-
-
             feats = np.array(voc_file['feats'])
 
             f0 = feats[:,-2]

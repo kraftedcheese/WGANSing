@@ -2,10 +2,10 @@ import numpy as np
 import tensorflow as tf
 
 
-wav_dir_nus = '../datasets/nus-smc-corpus_48/'
+wav_dir_nus = './datasets/nus-smc-corpus_48/'
 
 
-voice_dir = '../ss_synthesis/voice/'
+voice_dir = './ss_synthesis/voice/'
 
 
 log_dir = './log/'

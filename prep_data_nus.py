@@ -69,13 +69,14 @@ def main():
             else: 
                 vocals = np.array(audio)
 
-            voc_stft = abs(utils.stft(vocals))
+            voc_stft = abs(utils.stft(vocals)) #short term fourier transform
 
             out_feats = utils.stft_to_feats(vocals,fs)
 
             strings_p = process_lab_file(os.path.join(sing_dir,lf[:-4]+'.txt'), len(voc_stft))
 
             voc_stft, out_feats, strings_p = utils.match_time([voc_stft, out_feats, strings_p])
+
 
 
             hdf5_file = h5py.File(config.voice_dir+'nus_'+singer+'_sing_'+lf[:-4]+'.hdf5', mode='a')
@@ -96,6 +97,10 @@ def main():
 
 
             hdf5_file.close()
+
+            np.savetxt("AZIZ_s1_voc_stft", voc_stft, delimiter=",")
+            np.savetxt("AZIZ_s1_out_feats", out_feats, delimiter=",")
+            np.savetxt("AZIZ_s1_strings_p", strings_p[:,0], delimiter=",")
 
             count+=1
 
@@ -124,6 +129,8 @@ def main():
             strings_p = process_lab_file(os.path.join(read_dir,lf[:-4]+'.txt'), len(voc_stft))
 
             voc_stft, out_feats, strings_p = utils.match_time([voc_stft, out_feats, strings_p])
+
+            
 
 
             hdf5_file = h5py.File(config.voice_dir+'nus_'+singer+'_read_'+lf[:-4]+'.hdf5', mode='a')
